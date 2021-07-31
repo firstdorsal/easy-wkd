@@ -1,23 +1,34 @@
 import express from "express";
 import { execSync } from "child_process";
-import fs from "fs";
+import { promises as fs } from "fs";
 const app = express();
 const port = 80;
 const pkDir = "public-keys";
+const regex = new RegExp(/^([\s]{14})([a-z0-9]*)@(.*)/gm); // seperate the openpgp output into domain and wkd name
 
-const parseGPG = a => {
-    const b = a.match(/^([\s]{14})([a-z0-9]*)/gm);
-    return b ? b[0].replaceAll(" ", "") : false;
-};
+// create folders
+await fs.mkdir(`public/.well-known/openpgpkey/hu/`, { recursive: true }).catch(e => console.log(e));
+await fs.mkdir(`public/.well-known/openpgpkey/policy`).catch(e => console.log(e));
 
-const keyIds = fs.readdirSync(pkDir, () => {});
-keyIds.forEach(keyId => {
+const keyIds = await fs.readdir(pkDir);
+
+keyIds.forEach(async keyId => {
+    // import the keys
     execSync(`gpg -q --import ${pkDir}/${keyId}`);
-    const wkdHash = parseGPG(execSync(`gpg --with-wkd-hash --fingerprint ${keyId}`).toString());
+
+    // get the correct hashed names for the keys
+    const wkdHash = regex.exec(execSync(`gpg --with-wkd-hash --fingerprint ${keyId}`).toString());
     if (!wkdHash) console.log(`key with keyId ${keyId} couldnt be parsed`);
-    execSync(`gpg --no-armor --export ${keyId} > public/.well-known/openpgpkey/hu/${wkdHash}`);
+
+    // export the keys in the correct format to the right locations
+    execSync(`gpg --no-armor --export ${keyId} > public/.well-known/openpgpkey/hu/${wkdHash[2]}`);
+    await fs.mkdir(`public/.well-known/openpgpkey/${wkdHash[3]}/`).catch(e => console.log(e));
+    await fs.copyFile(`public/.well-known/openpgpkey/hu/${wkdHash[2]}`, `public/.well-known/openpgpkey/${wkdHash[3]}/${wkdHash[2]}`);
+
     console.log(`imported key for id: ${keyId}`);
     console.log("trying to get the key via wkd (proxy/dns/routing has to work for this):");
+    console.log("also check out https://metacode.biz/openpgp/web-key-directory");
+
     const test = execSync(`gpg -v --auto-key-locate clear,wkd,nodefault --locate-key ${keyId}`).toString();
     console.log(test);
 });
