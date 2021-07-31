@@ -35,5 +35,9 @@ gpg -a --export paul@example.com > paul@example.com
 docker-compose up -d --build
 ```
 
+# check here
+
+https://metacode.biz/openpgp/web-key-directory
+
 thanks @www.kuketz-blog.de
 https://www.kuketz-blog.de/gnupg-web-key-directory-wkd-einrichten/
