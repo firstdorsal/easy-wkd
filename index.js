@@ -8,7 +8,7 @@ const regex = new RegExp(/^([\s]{14})([a-z0-9]*)@(.*)/gm); // seperate the openp
 
 // create folders
 await fs.mkdir(`public/.well-known/openpgpkey/hu/`, { recursive: true }).catch(e => console.log(e));
-await fs.mkdir(`public/.well-known/openpgpkey/policy`).catch(e => console.log(e));
+await fs.writeFile(`public/.well-known/openpgpkey/policy`, "").catch(e => console.log(e));
 
 const keyIds = await fs.readdir(pkDir);
 
