@@ -21,7 +21,9 @@ keyIds.forEach(keyId => {
     const test = execSync(`gpg -v --auto-key-locate clear,wkd,nodefault --locate-key ${keyId}`).toString();
     console.log(test);
 });
-
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+});
 app.use(express.static("public"));
 
 app.use((req, res) => {
