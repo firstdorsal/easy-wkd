@@ -25,11 +25,7 @@ keyIds.forEach(keyId => {
 app.use(express.static("public"));
 
 app.use((req, res) => {
-    res.status(404);
-});
-
-app.get((req, res) => {
-    res.status(404);
+    res.sendStatus(404);
 });
 
 app.listen(port, () => console.log(`server started at port ${port}`));
