@@ -32,11 +32,7 @@ keyIds.forEach(async keyId => {
     console.log(`imported key for id: ${keyId}`);
     console.log("");
 
-    console.log("trying to get the key via wkd (proxy/dns/routing has to work for this):");
-    console.log("also check out https://metacode.biz/openpgp/web-key-directory");
-    console.log("");
-    const test = execSync(`gpg -v --auto-key-locate clear,wkd,nodefault --locate-key ${keyId}`).toString();
-    console.log(test);
+    console.log("visit https://metacode.biz/openpgp/web-key-directory to check out if everything is working");
     console.log("");
 });
 app.use((req, res, next) => {
