@@ -17,8 +17,8 @@ keyIds.forEach(keyId => {
     if (!wkdHash) console.log(`key with keyId ${keyId} couldnt be parsed`);
     execSync(`gpg --no-armor --export ${keyId} > public/.well-known/openpgpkey/hu/${wkdHash}`);
     console.log(`imported key for id: ${keyId}`);
-    const test = execSync(`gpg -v --auto-key-locate clear,wkd,nodefault --locate-key ${keyId}`).toString();
     console.log("trying to get the key via wkd (proxy/dns/routing has to work for this):");
+    const test = execSync(`gpg -v --auto-key-locate clear,wkd,nodefault --locate-key ${keyId}`).toString();
     console.log(test);
 });
 
