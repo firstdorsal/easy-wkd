@@ -22,8 +22,12 @@ keyIds.forEach(async keyId => {
 
     // export the keys in the correct format to the right locations
     execSync(`gpg --no-armor --export ${keyId} > public/.well-known/openpgpkey/hu/${wkdHash[2]}`);
+    // direct method
     await fs.mkdir(`public/.well-known/openpgpkey/${wkdHash[3]}/hu/`, { recursive: true }).catch(e => console.log(e));
+
+    // advanced method
     await fs.copyFile(`public/.well-known/openpgpkey/hu/${wkdHash[2]}`, `public/.well-known/openpgpkey/${wkdHash[3]}/hu/${wkdHash[2]}`);
+    await fs.writeFile(`public/.well-known/openpgpkey/${wkdHash[3]}/policy`, "").catch(e => console.log(e));
 
     console.log(`imported key for id: ${keyId}`);
     console.log("");
