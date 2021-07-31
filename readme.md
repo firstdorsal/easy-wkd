@@ -10,8 +10,9 @@ mkdir public-keys
 
 # copy your public keys
 
-create a file in the public-keys directory with the name of your key id (for example: paul@example.com) and insert your public key
-get the public key:
+create a file in the public-keys directory with the name of your key id (for example: paul@example.com) and insert your public key into the file.
+
+# get the public key:
 
 ## thunderbird
 
