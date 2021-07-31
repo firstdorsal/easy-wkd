@@ -28,4 +28,8 @@ app.use((req, res) => {
     res.status(404);
 });
 
+app.get((req, res) => {
+    res.status(404);
+});
+
 app.listen(port, () => console.log(`server started at port ${port}`));
