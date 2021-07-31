@@ -1,0 +1,21 @@
+version: "3.7"
+services:
+    wkd:
+        container_name: wkd
+        restart: always
+        build:
+            context: "."
+        volumes:
+            - ./public-keys/:/app/public-keys/
+        entrypoint: "yarn start"
+        labels:
+            - traefik.enable=true
+            - traefik.http.routers.$PROJECT_NAME.tls.certresolver=default
+            - traefik.http.routers.$PROJECT_NAME.tls.domains[0].main=${DOMAIN}
+            - traefik.http.routers.$PROJECT_NAME.tls.domains[0].sans=*.${DOMAIN}
+            - traefik.http.routers.$PROJECT_NAME.rule=Host(`openpgpkey.${DOMAIN}`) && Path(`/.well-known/openpgpkey/hu/`)
+            - traefik.http.routers.$PROJECT_NAME.tls=true
+            - traefik.http.routers.$PROJECT_NAME.priority=1
+            - traefik.http.routers.$PROJECT_NAME.entrypoints=websecure
+            - traefik.http.services.$PROJECT_NAME.loadbalancer.server.port=80
+            - traefik.docker.network=$RP_NETWORK
