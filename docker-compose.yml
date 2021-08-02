@@ -1,7 +1,7 @@
 version: "3.7"
 services:
-    wkd:
-        container_name: wkd
+    easy-wkd:
+        container_name: easy-wkd
         restart: always
         build:
             context: "."

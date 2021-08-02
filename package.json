@@ -1,11 +1,12 @@
 {
-    "name": "wkd",
+    "name": "easy-wkd",
     "version": "1.0.0",
     "main": "index.js",
     "license": "MIT",
     "type": "module",
     "scripts": {
-        "start": "node index.js"
+        "start": "node index.js",
+        "start-docker": "docker-compose up -d --build"
     },
     "dependencies": {
         "express": "^4.17.1"
