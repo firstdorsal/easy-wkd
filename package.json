@@ -6,7 +6,7 @@
     "type": "module",
     "scripts": {
         "start": "node index.js",
-        "start-docker": "docker-compose up -d --build"
+        "start-docker": "docker-compose up -d --build --remove-orphans"
     },
     "dependencies": {
         "express": "^4.17.1"
